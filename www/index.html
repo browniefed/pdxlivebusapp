@@ -27,10 +27,34 @@
         <title>PDXLiveBus</title>
     </head>
     <body>
+
+        <script type="text/ractive" id="appTemplate">
+            <div class="app-container">
+
+                <div class="menu-container">
+                
+                </div>
+
+                <div class="map-container">
+                    <map markers="markers"></map>
+                </div>
+                <div class="tracker-overlay-container">
+                    <div class="tracker">
+                        <div class="bus-path"></div>
+                        <div class="selected-label"></div>
+                    </div>
+                </div>
+
+            </div>
+        </script>
+
+
+
         <script type="text/javascript" src="phonegap.js"></script>
         <script type="text/javascript" src="js/leaflet.js"></script>
         <script type="text/javascript" src="js/d3.js"></script>
-        <script src='http://cdn.ractivejs.org/latest/ractive.js'></script>
+
+        <script src="http://cdn.ractivejs.org/latest/ractive.js"></script>
         <script src="js/connect.js"></script>
         <script src="js/map.js"></script>
         <script src="js/user.js"></script>

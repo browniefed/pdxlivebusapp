@@ -8,9 +8,10 @@ var app = (function(map, connect, user) {
 	}
 
 	function render(data) {
+		console.log('here');
 		ractive = new Ractive({
 			el: 'body', 
-			template: 'appTemplate',
+			template: '#appTemplate',
 			data: data,
 			components: {
 				map: map
@@ -29,5 +30,7 @@ var app = (function(map, connect, user) {
 
 }(map, connect, user));
 
+console.log('here');
 
+debugger;
 document.addEventListener('deviceready', app.initialize, false);
