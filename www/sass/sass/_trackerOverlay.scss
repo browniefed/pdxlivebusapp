@@ -1,0 +1,33 @@
+.tracker-overlay-container {
+	position: absolute;
+	bottom: 200px;
+	left: 0;
+	right: 0;
+	
+	.tracker {
+		position: relative;
+		border-top: 1px solid $border-color;
+	}
+
+
+	.bus-path {
+		position: absolute;
+		height: 30px;
+		top: -15px;
+		padding: 15px 0;
+		.stop {
+			width: 10px;
+			border-radius: 5px;
+			border: 1px solid $border-color;
+			background-color: $stop-color;
+			&.passed {
+				background-color: $passed-stop-color;
+			}
+			&.selected {
+				background-color: $selected-stop-color;
+			}
+		}
+		
+	}
+
+}
