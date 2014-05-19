@@ -32,7 +32,7 @@
             <div class="app-container">
 
                 <div class="menu-container">
-                
+
                 </div>
 
                 <div class="map-container">
@@ -40,12 +40,23 @@
                 </div>
                 <div class="tracker-overlay-container">
                     <div class="tracker">
-                        <div class="bus-path"></div>
-                        <div class="selected-label"></div>
+                        <div class="bus-path">
+                        {{#trackerStops: trackerStopIndex}}
+                            <div class="stop {{#.selected}}selected{{/.selected}} {{#.passed}}passed{{/.passed}}"></div>
+                        {{/trackerStops}}
+                        {{#trackerVehicles: trackerBusIndex}}
+                            <div class="vehicle in"><b></b><i><span></span></i></div>
+                        {{/trackerVehicles}}
+                        </div>
+                        <div class="selected-label">{{trackerLabel}}</div>
                     </div>
                 </div>
 
             </div>
+        </script>
+
+        <script type="text/ractive" id="vehicle">
+            <div class="vehicle in"><b></b><i><span></span></i></div>
         </script>
 
 

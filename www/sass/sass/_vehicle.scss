@@ -1,0 +1,204 @@
+@mixin animation-name($name) {
+  -webkit-animation-name: $name;
+  -moz-animation-name: $name;
+  -ms-animation-name: $name;
+  animation-name: $name;
+}
+ 
+@mixin animation-duration($name) {
+  -webkit-animation-duration: $name;
+  -moz-animation-duration: $name;
+  -ms-animation-duration: $name;
+  animation-duration: $name;
+}
+ 
+@mixin animation-timing-function($name) {
+  -webkit-animation-timing-function: $name;
+  -moz-animation-timing-function: $name;
+  -ms-animation-timing-function: $name;
+  animation-timing-function: $name;
+}
+ 
+@mixin animation-iteration-count($name) {
+  -webkit-animation-iteration-count: $name;
+  -moz-animation-iteration-count: $name;
+  -ms-animation-iteration-count: $name;
+  animation-iteration-count: $name;
+}
+ 
+@mixin animation-direction($name) {
+  -webkit-animation-direction: $name;
+  -moz-animation-direction: $name;
+  -ms-animation-direction: $name;
+  animation-direction: $name;
+}
+ 
+@mixin animation-delay($name) {
+  -webkit-animation-delay: $name;
+  -moz-animation-delay: $name;
+  -ms-animation-delay: $name;
+  animation-delay: $name;
+}
+ 
+@mixin animation-play-state($name) {
+  -webkit-animation-play-state: $name;
+  -moz-animation-play-state: $name;
+  -ms-animation-play-state: $name;
+  animation-play-state: $name;
+}
+ 
+@mixin animation-fill-mode($name) {
+  -webkit-animation-fill-mode: $name;
+  -moz-animation-fill-mode: $name;
+  -ms-animation-fill-mode: $name;
+  animation-fill-mode: $name;
+}
+ 
+@mixin keyframes($name) {
+  @-webkit-keyframes $name { @content; }
+  @-moz-keyframes $name { @content; }
+  @-ms-keyframes $name { @content; }
+  @keyframes $name { @content; }
+}
+  
+  
+  
+
+
+@include keyframes (loader-in) {
+  0% {
+    @include transform(scale(0, 0));
+  }
+  70% {
+    @include transform(scale(1.2, 1.2));
+  }
+}
+
+@include keyframes (loader-out) {
+  0% {
+    @include transform(scale(1, 1));
+  }
+
+  30% {
+    @include transform(scale(1.2, 1.2));
+    border: none;
+  }
+
+  50% {
+    @include transform(scale(0.2, 0.2));
+    border: none;
+  }
+
+  100% {
+    @include transform(scale(0, 0));
+    @include opacity(0);
+  }
+}
+
+@include keyframes (loader-border-rotation) {
+    from {@include transform(rotate(0deg));}
+    to   {@include transform(rotate(359deg));}
+}
+
+
+$base-color: #1a75ce;
+$early-color: #fd910e;
+$late-color: #cd0606;
+
+.vehicle{
+    position: absolute;
+    width:32px;
+    height:32px;
+    left: 50%;
+    bottom: 50%;
+    z-index: 9;
+    margin-left: -16px;
+    margin-bottom: -16px;
+    @include animation-duration(.3s);
+
+    &.in {
+        width:1;
+        height:1;
+        @include animation-name(loader-in);
+    }
+
+    i {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -14px;
+        margin-left: -14px;
+        z-index: 10;
+        width: 75%;
+        height: 75%;
+        display: block;
+        border-radius: 90px;
+        border: 2px solid #fff;
+        background-color: $base-color;
+        color: #FFF;
+        text-align: center;
+        line-height: 26px;
+    }
+
+    b {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        display: block;
+        border-radius: 90px;
+        @include opacity(.90);
+        background-color: transparent;
+        @include filter-gradient($base-color, #ffffff, horizontal);
+        @include background-image(linear-gradient(left, ($base-color - 4) 50%, transparent 50%));
+        @include box-shadow(inset 4px -40px 60px 5px $base-color);
+        @include animation-name(loader-border-rotation);
+        @include animation-duration(.9s);
+        @include animation-delay(0s);
+        @include animation-timing-function (linear);
+        @include animation-iteration-count (infinite);
+
+        &:after {
+            content: "";
+            position: absolute;
+            top: 0.2px;
+            left: 19px;
+            z-index: 1;
+            width: 12.7%;
+            height: 13%;
+            background-color: $base-color;
+            border-radius: 45px;
+        }        
+    }
+
+
+    &.early {
+      i {
+        background-color: $early-color;
+      }
+      b {
+        @include filter-gradient($early-color, #ffffff, horizontal);
+        @include background-image(linear-gradient(left, ($early-color - 4) 50%, transparent 50%));
+        @include box-shadow(inset 4px -40px 60px 5px $early-color);
+        &:after {
+          background-color: $early-color;
+        }
+      }
+    }
+    &.late {
+      i {
+        background-color: $late-color;
+      }
+      b {
+        @include filter-gradient($late-color, #ffffff, horizontal);
+        @include background-image(linear-gradient(left, ($late-color - 4) 50%, transparent 50%));
+        @include box-shadow(inset 4px -40px 60px 5px $late-color);
+        &:after {
+        background-color: $late-color;
+        }
+      }
+    }
+}

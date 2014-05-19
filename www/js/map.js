@@ -24,6 +24,7 @@ var map = (function() {
 	return Ractive.extend({
 		template: 'mapTemplate',
 		init: function() {
+			debugger;
 			this.observe('markers', this.manageMarkers);
 		},
 		manageMarkers: function(newValue, oldValue, keypath) {
