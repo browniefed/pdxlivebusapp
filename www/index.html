@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="map-container">
-                    <map markers="markers"></map>
+                    <Map markers="{{markers}}"></Map>
                 </div>
                 <div class="tracker-overlay-container">
                     <div class="tracker">
@@ -53,6 +53,10 @@
                 </div>
 
             </div>
+        </script>
+
+        <script id="mapTemplate" type="text/ractive">
+            <div class="map"></div>
         </script>
 
         <script type="text/ractive" id="vehicle">

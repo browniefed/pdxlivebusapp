@@ -1,36 +1,37 @@
 /* line 1, ../sass/sass/_trackerOverlay.scss */
 .tracker-overlay-container {
   position: absolute;
-  bottom: 200px;
+  bottom: 0;
   left: 0;
   right: 0;
+  height: 150px;
   background-color: #000;
   opacity: .6;
 }
-/* line 9, ../sass/sass/_trackerOverlay.scss */
+/* line 10, ../sass/sass/_trackerOverlay.scss */
 .tracker-overlay-container .tracker {
   position: relative;
   border-top: 1px solid #333333;
 }
-/* line 15, ../sass/sass/_trackerOverlay.scss */
+/* line 16, ../sass/sass/_trackerOverlay.scss */
 .tracker-overlay-container .bus-path {
   position: absolute;
   height: 30px;
   top: -15px;
   padding: 15px 0;
 }
-/* line 20, ../sass/sass/_trackerOverlay.scss */
+/* line 21, ../sass/sass/_trackerOverlay.scss */
 .tracker-overlay-container .bus-path .stop {
   width: 10px;
   border-radius: 5px;
   border: 1px solid #333333;
   background-color: white;
 }
-/* line 25, ../sass/sass/_trackerOverlay.scss */
+/* line 26, ../sass/sass/_trackerOverlay.scss */
 .tracker-overlay-container .bus-path .stop.passed {
   background-color: #333333;
 }
-/* line 28, ../sass/sass/_trackerOverlay.scss */
+/* line 29, ../sass/sass/_trackerOverlay.scss */
 .tracker-overlay-container .bus-path .stop.selected {
   background-color: black;
 }
@@ -49,6 +50,16 @@ body {
 /* line 5, ../sass/sass/_map.scss */
 html, body, .map-container {
   height: 100%;
+  width: 100%;
+}
+
+/* line 10, ../sass/sass/_map.scss */
+.map-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
 }
 
 /* line 10, ../sass/sass/main.scss */
