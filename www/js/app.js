@@ -1,14 +1,17 @@
 var app = (function(map, connect, user) {
 
-	var ractive;
+	var ractive,
+		TYPES = {
+			VEHICLE: 'vehicle',
+			ROUTE: 'route'
+		}
 
 	function initialize() {
-		connect.connect(updateVehciles);
+		connect.connect(connectionUpdates);
 		render(user.loadDefaults());
 	}
 
 	function render(data) {
-		debugger;
 		ractive = new Ractive({
 			el: 'body', 
 			template: '#appTemplate',
@@ -19,7 +22,30 @@ var app = (function(map, connect, user) {
 		});
 	}
 
-	function updateVehciles() {
+	function connectionUpdates(event, msg, socket) {
+		if (event == 'disconnect') {
+			connect.disconnect();
+			connect.connect(function() {});
+		} else if(event == 'connect') {
+			connect.registerForVehicles(handleVehicleUpdates);
+			if (user.getFavorites()) {
+				user.getFavorites().forEach(function(favorite) {
+					//This can be simplified and made smarter
+					if (favorite.type == TYPES.VEHICLE) {
+						connect.registerRoom('v' + favorite.id);
+					} else if (favorite.type == TYPES.ROUTE) {
+						connect.registerRoom('r' + favorite.id);
+					}
+				})
+			}
+
+			//get user preference and register the specific rooms/busses
+		} else if (event == 'connect_error') {
+			//Shit went bad - try to reconnect?
+		}
+	}
+
+	function handleVehicleUpdates(vehicle) {
 
 	}
 
@@ -34,4 +60,8 @@ var app = (function(map, connect, user) {
 
 }(map, connect, user));
 
-document.addEventListener('deviceready', app.initialize, false);
+function loadSockets() {
+	app.initialize();
+}
+
+document.addEventListener('deviceready', loadSockets, false);

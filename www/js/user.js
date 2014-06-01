@@ -8,10 +8,15 @@ var user = (function() {
 		window.localStorage.userDefaults = userDefaults;
 	}
 
+	function getFavorites() {
+		return (this.loadDefaults() || {}).favorites;
+	}
+
 
 	return {
 		loadDefaults: loadDefaults,
-		saveDefaults: saveDefaults
+		saveDefaults: saveDefaults,
+		getFavorites: getFavorites
 	};
 
 }());
