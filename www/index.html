@@ -32,12 +32,40 @@
             <div class="app-container">
 
                 <div class="menu-container">
-
+                    <button class="searchBtn" on-click="openSearch">Search</button>
                 </div>
+
 
                 <div class="map-container">
                     <Map markers="{{markers}}"></Map>
                 </div>
+
+                {{#searchVisible}}
+                <div class="search-container">
+
+                    <input on-keypress="searchAll" type="text" />
+                    <ul>
+                        <li><a href="#" on-click="showNearbyStops">Show nearby stops</a></li>
+                    </ul>
+                </div>
+                {{/searchVisible}}
+
+                <div class="list-container">
+                    <div class="nearby-stop-container">
+                    {{# showNearbyStops}}
+                        <ul>
+                        {{# nearbyStops:stopIndex}}
+                            <li>
+                                <h4>{{desc}} - {{locid}}</h4>
+                            </li>
+                        {{/nearbyStops}}
+                        </ul>
+                    {{/showNearbyStops}}
+                    </div>
+
+                </div>
+
+
                 <div class="tracker-overlay-container">
                     <div class="tracker">
                         <div class="bus-path">
@@ -65,10 +93,11 @@
 
         <script type="text/javascript" src="phonegap.js"></script>
         <script type="text/javascript" src="js/leaflet.js"></script>
-        <script type="text/javascript" src="js/d3.js"></script>
+        <script type="text/javascript" src="js/superagent.js"></script>    
 
         <script type="text/javascript" src="js/socket.io-1.0.2.js"></script>
         <script src="http://cdn.ractivejs.org/latest/ractive.js"></script>
+        <script src="js/trimet.js"></script>
         <script src="js/connect.js"></script>
         <script src="js/map.js"></script>
         <script src="js/user.js"></script>

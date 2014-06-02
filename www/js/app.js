@@ -1,4 +1,4 @@
-var app = (function(map, connect, user) {
+var app = (function(map, connect, user, trimet) {
 
 	var ractive,
 		TYPES = {
@@ -20,6 +20,21 @@ var app = (function(map, connect, user) {
 				Map: map
 			}
 		});
+
+		attachRactiveListeners();
+	}
+
+	function attachRactiveListeners() {
+		ractive && ractive.on({
+			toggleMap: function() {},
+			searchVehicle: function() {},
+			addFavoriteStop: function() {},
+			openSearch: function(e) {
+				this.toggle('searchVisible');
+			},
+			searchForStops: searchForStops,
+			showNearbyStops: searchForStops
+		})
 	}
 
 	function connectionUpdates(event, msg, socket) {
@@ -46,22 +61,32 @@ var app = (function(map, connect, user) {
 	}
 
 	function handleVehicleUpdates(vehicle) {
-
+		if (ractive) {
+			var vehicles = ractive.get('vehicles.' + vehicle.vehicleID, vehicle);
+		}
 	}
 
 	function setMapToViewport() {
-
 		viewPortWidth = window.innerWidth,
 		viewPortHeight = window.innerHeight
 	}
+
+	function searchForStops(e) {
+		e.original.preventDefault();
+		ractive.set('showNearbyStops', true);
+		ractive.set('nearbyStops', []);
+		user.getUserLocation(function(position) {
+			trimet.searchForStops(position.coords.longitude + ',' + position.coords.latitude, function(stops) {
+				ractive.set('nearbyStops', stops.body);
+
+			});
+		})
+	}
+
 	return {
 		initialize: initialize
 	}
 
-}(map, connect, user));
+}(map, connect, user, trimet));
 
-function loadSockets() {
-	app.initialize();
-}
-
-document.addEventListener('deviceready', loadSockets, false);
+document.addEventListener('deviceready', app.initialize, false);

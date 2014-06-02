@@ -2,3 +2,8 @@ $border-color: #333;
 $stop-color: #FFF;
 $selected-stop-color: #000;
 $passed-stop-color: $border-color;
+
+
+$menu-zindex: 1000;
+$search-overlay-zindex: $menu-zindex;
+$list-container-zindex: $menu-zindex;

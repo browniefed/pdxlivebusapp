@@ -12,11 +12,15 @@ var user = (function() {
 		return (this.loadDefaults() || {}).favorites;
 	}
 
+	function getUserLocation(cb) {
+		navigator.geolocation.getCurrentPosition(cb);
+	}
 
 	return {
 		loadDefaults: loadDefaults,
 		saveDefaults: saveDefaults,
-		getFavorites: getFavorites
+		getFavorites: getFavorites,
+		getUserLocation: getUserLocation
 	};
 
 }());
