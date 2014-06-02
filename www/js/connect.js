@@ -1,7 +1,7 @@
 var connect = (function() {
 
 	var cb,
-		socketUrl = 'http://pdxlivebus.herokuapp.com',
+		socketUrl = 'localhost:8080',
 		socket;
 
 	function connect(fn) {

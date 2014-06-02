@@ -33,7 +33,10 @@ var app = (function(map, connect, user, trimet) {
 				this.toggle('searchVisible');
 			},
 			searchForStops: searchForStops,
-			showNearbyStops: searchForStops
+			showNearbyStops: searchForStops,
+			favoriteStop: function(e) {
+				user.addFavoriteStop(e.context.locid);
+			}
 		})
 	}
 

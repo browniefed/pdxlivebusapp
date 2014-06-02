@@ -1,5 +1,7 @@
 var user = (function() {
 	
+	var namespace = window.localStorage.userDefaults;
+
 	function loadDefaults() {
 		return window.localStorage.userDefaults
 	}
@@ -15,6 +17,18 @@ var user = (function() {
 	function getUserLocation(cb) {
 		navigator.geolocation.getCurrentPosition(cb);
 	}
+
+	function addFavoriteStop(stopId) {
+		namespace.favoriteStops = namespace.favoriteStops || [];
+	}
+
+	function setupDefaults() {
+		window.localStorage.userDefaults = window.localStorage.userDefaults || {};
+	}
+
+
+	setupDefaults()
+
 
 	return {
 		loadDefaults: loadDefaults,
