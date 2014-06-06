@@ -35,28 +35,29 @@
                     <button class="searchBtn" on-click="openSearch">Search</button>
                 </div>
 
-
+                {{#map}}
                 <div class="map-container">
                     <Map markers="{{markers}}"></Map>
                 </div>
-
-                {{#searchVisible}}
-                <div class="search-container">
-
-                    <input on-keypress="searchAll" type="text" />
-                    <ul>
-                        <li><a href="#" on-click="showNearbyStops">Show nearby stops</a></li>
-                    </ul>
-                </div>
-                {{/searchVisible}}
+                {{/map}}
 
                 <div class="list-container">
-                    <div class="nearby-stop-container">
+                    {{^favoriteStops}}
+                        <a href="#" on-click="showNearbyStops">Show nearby stops</a>
+                    {{/}}
+                    <div>
                     {{# showNearbyStops}}
                         <ul>
                         {{# nearbyStops:stopIndex}}
                             <li>
                                 <h4>{{desc}} - {{locid}}</h4>
+                                <ul class="nearby-stop-routes">
+                                    {{# .routes: routeIndex}}
+                                        <li>
+                                            <a href="#" on-click="favoriteStop">{{desc}}</a>
+                                        </li>
+                                    {{/routes}}
+                                </ul>
                                 <a href="#" on-click="favoriteStop">Favorite</a>
                             </li>
                         {{/nearbyStops}}
@@ -64,21 +65,7 @@
                     {{/showNearbyStops}}
                     </div>
 
-                </div>
 
-
-                <div class="tracker-overlay-container">
-                    <div class="tracker">
-                        <div class="bus-path">
-                        {{#trackerStops: trackerStopIndex}}
-                            <div class="stop {{#.selected}}selected{{/.selected}} {{#.passed}}passed{{/.passed}}"></div>
-                        {{/trackerStops}}
-                        {{#trackerVehicles: trackerBusIndex}}
-                            <div class="vehicle in"><b></b><i><span></span></i></div>
-                        {{/trackerVehicles}}
-                        </div>
-                        <div class="selected-label">{{trackerLabel}}</div>
-                    </div>
                 </div>
             </div>
         </script>

@@ -36,28 +36,17 @@
   background-color: black;
 }
 
-/* line 1, ../sass/sass/_menuOverlay.scss */
-.menu-container {
-  position: absolute;
-  top: 100px;
-  left: 0;
-  z-index: 1000;
-}
-
-/* line 1, ../sass/sass/_searchOverlay.scss */
-.search-container {
-  position: absolute;
-  top: 150px;
-  left: 0;
-  z-index: 1000;
-}
-
 /* line 1, ../sass/sass/_listOverlay.scss */
 .list-container {
-  position: absolute;
-  left: 0;
-  top: 200px;
-  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+/* line 6, ../sass/sass/_listOverlay.scss */
+.list-container li {
+  width: 100%;
+  min-height: 80px;
+  max-height: 150px;
 }
 
 /* line 1, ../sass/sass/_map.scss */
@@ -81,7 +70,13 @@ html, body, .map-container {
   right: 0;
 }
 
-/* line 12, ../sass/sass/main.scss */
+/* line 11, ../sass/sass/main.scss */
+.app-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* line 16, ../sass/sass/main.scss */
 * {
   box-sizing: border-box;
 }

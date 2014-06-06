@@ -77,11 +77,10 @@ var app = (function(map, connect, user, trimet) {
 	function searchForStops(e) {
 		e.original.preventDefault();
 		ractive.set('showNearbyStops', true);
-		ractive.set('nearbyStops', []);
 		user.getUserLocation(function(position) {
 			trimet.searchForStops(position.coords.longitude + ',' + position.coords.latitude, function(stops) {
+				console.log(stops.body);
 				ractive.set('nearbyStops', stops.body);
-
 			});
 		})
 	}

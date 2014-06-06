@@ -3,7 +3,7 @@ var user = (function() {
 	var namespace = window.localStorage.userDefaults;
 
 	function loadDefaults() {
-		return window.localStorage.userDefaults
+		return {};
 	}
 
 	function saveDefaults(userDefaults) {

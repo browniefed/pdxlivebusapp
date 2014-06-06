@@ -8,6 +8,10 @@
 @import "listOverlay";
 @import "map";
 
+.app-container {
+	width: 100%;
+	height: 100%;
+}
 
 * {
 	box-sizing: border-box;
