@@ -109,9 +109,10 @@
 }
 /* line 34, ../sass/sass/_listOverlay.scss */
 .list-container .nearby-stop-route:hover {
-  color: white;
+  color: #007095;
+  background-color: white;
 }
-/* line 37, ../sass/sass/_listOverlay.scss */
+/* line 38, ../sass/sass/_listOverlay.scss */
 .list-container .nearby-stop-route.favorite {
   background-color: #007095;
   color: white;

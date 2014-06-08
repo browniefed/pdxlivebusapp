@@ -32,7 +32,8 @@
 		line-height: 50px;
 
 		&:hover {
-			color: $button-opposite;
+			color: $button-color;
+			background-color: $button-opposite;
 		}
 		&.favorite {
 			background-color: $button-color;

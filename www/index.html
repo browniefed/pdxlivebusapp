@@ -59,7 +59,7 @@
                                         {{# .route: routeIndex}}
                                             <li class="button nearby-stop-route {{# favoriteStops[locid][route]}} favorite {{/favoriteStops}}" on-click="favoriteStop">
                                                 {{route}}
-                                            </li>
+                                            </li>                                        
                                         {{/.route}}
                                     </ul>
                                 </div>
@@ -97,12 +97,9 @@
 
         <script type="text/javascript" src="js/config.js"></script>
         <script type="text/javascript" src="phonegap.js"></script>
-        <script type="text/javascript" src="SQLitePlugin.js"></script>
         <script type="text/javascript" src="js/leaflet.js"></script>
         <script type="text/javascript" src="js/vendor/jquery.js"></script>
         <script type="text/javascript" src="js/foundation.min.js"></script>
-
-
         <script type="text/javascript" src="js/socket.io-1.0.2.js"></script>
         <script src="js/ractive.js"></script>
         <script src="js/trimet.js"></script>

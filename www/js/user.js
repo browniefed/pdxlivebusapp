@@ -1,91 +1,35 @@
 var user = (function() {
-	/**
-	 *
-	 * Install sqllite plugin
-	 * 
-	 */
-	
 	return function() {
-		var database = window.sqlitePlugin || window,
-			db;
+		var db = window.localStorage;
 
 		function loadDefaults() {
-			var defaultPromise = $.Deferred();
-			db = database.openDatabase('Database', '', 'PDXLiveBus', 200000);
-			var setupPromise = setupDb();
-			setupPromise.done(function() {
-				getFavorites(defaultPromise);
-			});
-
-			return defaultPromise;
-
+			return getFavorites();
 		}
 
-		function openDb() {
+		function getFavorites() {
+			return getPath('favorites') || [];
 		}
-
-		function toArray(results) {
-			var data = [];
-			if (results.rows.length) {
-				for (var i = 0; i < results.rows.length; i++) {
-					data.push(results.rows.item(i));
-				}
-			}
-			return data;
-		}
-
-		function setupDb() {
-			var setupPromise = $.Deferred();
-
-			if (db) {
-				db.transaction(function(tx) {
-					tx.executeSql('CREATE TABLE IF NOT EXISTS favorites (id integer primary key, stopId text, route text)', [], function() {
-						setupPromise.resolve();
-					});
-				})
-			}
-
-			return setupPromise;
-		}
-
-
-		function getFavorites(promise) {
-			var favoritePromise = promise || $.Deferred();
-			db.transaction(function(tx) {
-				tx.executeSql('SELECT * FROM favorites', [], function(tx, data) {
-					favoritePromise.resolve(toArray(data));
-				})
-			});
-
-			return favoritePromise;
+		function setFavorites(data) {
+			return setPath('favorites', data);
 		}
 
 		function deleteStop(stopId, route) {
-			var promise = $.Deferred();
-			db.transaction(function(tx) {
-				var query = 'stopId = ?',
-					params = [stopId];
-				if (route) {
-					query += ' AND route = ?';
-					params.push(route);
-				}
-
-				tx.executeSql('DELETE FROM favorites WHERE ' + query, params, function() {
- 					promise.resolve();
-				});
-			});
-
-			return promise;
+			var spliceIndex = hasStop(stopId, route),
+				favorites = getFavorites();
+			if (typeof spliceIndex === 'number') {
+				favorites.splice(spliceIndex, 1);
+				setFavorites(favorites);
+			}
 		}
 
 		function addFavoriteStop(stopId, route) {
-			var promise = $.Deferred();
-			db.transaction(function(tx) {
-				tx.executeSql('INSERT INTO favorites (stopId, route) VALUES(?,?)', [stopId, route], function() {
-					promise.resolve();
-				});
-			});
-			return promise;
+			var favorites = getFavorites(),
+				stopIndex = hasStop(stopId, route);
+
+			if (typeof stopIndex != 'number') {
+				favorites.push(newFavorite(stopId, route));
+				setFavorites(favorites)
+			}
 		}
 
 		function getUserLocation() {
@@ -98,8 +42,32 @@ var user = (function() {
 			return promise;
 		}
 
-		function getDb() {
-			return db;
+		
+
+		function newFavorite(stopId, route) {
+			return {
+				stopId: stopId,
+				route: route
+			};
+		}
+
+		function hasStop(stopId, route) {
+			var favorites = getFavorites(),
+				stopIndex;
+
+			favorites.forEach(function(favorite, index) {
+				if (favorite.stopId == stopId && favorite.route == route) {
+					stopIndex = index;
+				}
+			});
+			return stopIndex;		
+		}
+
+		function getPath(path) {
+			return JSON.parse(db.getItem(path));
+		}
+		function setPath(path, data) {
+			return db.setItem(path, JSON.stringify(data));
 		}
 
 
@@ -108,8 +76,7 @@ var user = (function() {
 			getUserLocation: getUserLocation,
 			getFavorites: getFavorites,
 			addFavoriteStop: addFavoriteStop,
-			deleteStop: deleteStop,
-			getDb: getDb
+			deleteStop: deleteStop
 		};
 	}
 }());

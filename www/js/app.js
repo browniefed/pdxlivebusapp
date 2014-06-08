@@ -11,21 +11,20 @@ var app = (function(map, connect, user, trimet) {
 		render(user.loadDefaults());
 	}
 
-	function render(dataPromise) {
+	function render(data) {
 
-		dataPromise.done(function(data) {
-			ractive = new Ractive({
-				el: 'body', 
-				template: '#appTemplate',
-				data: {
-					favoriteStops : parseFavoriteStops(data)
-				},
-				components: {
-					Map: map
-				}
-			});
-			attachRactiveListeners();
+		ractive = new Ractive({
+			el: 'body', 
+			template: '#appTemplate',
+			data: {
+				favoriteStops : parseFavoriteStops(data)
+			},
+			components: {
+				Map: map
+			}
 		});
+
+		attachRactiveListeners();
 		
 	}
 	function parseFavoriteStops(stopArray) {
@@ -60,6 +59,7 @@ var app = (function(map, connect, user, trimet) {
 				}
 
 				this.set('favoriteStops.' + stopId + '.' + route, !favoriteStop);
+				e.original.preventDefault();
 			}
 		})
 	}
