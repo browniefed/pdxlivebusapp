@@ -36,6 +36,37 @@
   background-color: black;
 }
 
+/* line 1, ../sass/sass/_menuOverlay.scss */
+.control-container {
+  position: absolute;
+  left: 0;
+  bottom: 100px;
+}
+/* line 9, ../sass/sass/_menuOverlay.scss */
+.control-container .menu-options li {
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  border: 1px solid #DDD;
+  border-left: none;
+  border-top: none;
+  padding: 0;
+  margin: 0;
+  display: block;
+  background-color: white;
+  color: #007095;
+}
+/* line 24, ../sass/sass/_menuOverlay.scss */
+.control-container .menu-options li:hover {
+  color: white;
+  background-color: #007095;
+}
+/* line 31, ../sass/sass/_menuOverlay.scss */
+.control-container .menu-options li:first-child {
+  border-top: 1px solid #DDD;
+}
+
 /* line 1, ../sass/sass/_listOverlay.scss */
 .list-container {
   width: 100%;
@@ -45,8 +76,45 @@
 /* line 6, ../sass/sass/_listOverlay.scss */
 .list-container li {
   width: 100%;
-  min-height: 80px;
-  max-height: 150px;
+}
+/* line 10, ../sass/sass/_listOverlay.scss */
+.list-container .stop-card {
+  background: #FFF;
+  border-top: 1px solid #DDD;
+  border-bottom: 1px solid #DDD;
+  -webkit-box-shadow: #dddddd;
+  -moz-box-shadow: #dddddd;
+  box-shadow: #dddddd;
+}
+/* line 16, ../sass/sass/_listOverlay.scss */
+.list-container .nearby-stop-routes-container {
+  display: inline-block;
+}
+/* line 19, ../sass/sass/_listOverlay.scss */
+.list-container .nearby-stop-routes {
+  display: block;
+}
+/* line 22, ../sass/sass/_listOverlay.scss */
+.list-container .nearby-stop-route {
+  background-color: white;
+  color: #007095;
+  width: 50px;
+  height: 50px;
+  float: left;
+  border: 1px solid #007095;
+  text-align: center;
+  padding: 0;
+  margin-left: 10px;
+  line-height: 50px;
+}
+/* line 34, ../sass/sass/_listOverlay.scss */
+.list-container .nearby-stop-route:hover {
+  color: white;
+}
+/* line 37, ../sass/sass/_listOverlay.scss */
+.list-container .nearby-stop-route.favorite {
+  background-color: #007095;
+  color: white;
 }
 
 /* line 1, ../sass/sass/_map.scss */
@@ -70,13 +138,13 @@ html, body, .map-container {
   right: 0;
 }
 
-/* line 11, ../sass/sass/main.scss */
+/* line 12, ../sass/sass/main.scss */
 .app-container {
   width: 100%;
   height: 100%;
 }
 
-/* line 16, ../sass/sass/main.scss */
+/* line 17, ../sass/sass/main.scss */
 * {
   box-sizing: border-box;
 }

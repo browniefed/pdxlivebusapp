@@ -21,11 +21,13 @@
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="css/leaflet.css" />
         <link rel="stylesheet" type="text/css" href="css/main.css" />
         <link rel="stylesheet" type="text/css" href="css/foundation.css" />
+
+        <script type="text/javascript" src="js/vendor/modernizr.js"></script>
         <title>PDXLiveBus</title>
     </head>
     <body>
@@ -44,29 +46,43 @@
                 {{/map}}
 
                 <div class="list-container">
-                    {{^favoriteStops}}
-                        <a href="#" on-click="showNearbyStops">Show nearby stops</a>
-                    {{/}}
+                    <a href="#" on-click="showNearbyStops">Show nearby stops</a>
                     <div>
                     {{# showNearbyStops}}
-                        <ul>
+                        <ul class="no-bullet stop-card-container">
                         {{# nearbyStops:stopIndex}}
-                            <li>
-                                <h4>{{desc}} - {{locid}}</h4>
-                                <ul class="nearby-stop-routes">
-                                    {{# .routes: routeIndex}}
-                                        <li>
-                                            <a href="#" on-click="favoriteStop">{{desc}}</a>
-                                        </li>
-                                    {{/.routes}}
-                                </ul>
+                            <li class="stop-card">
+                                <h3>{{desc}} - {{locid}}</h3>
+                                <div class="nearby-stop-routes-container">
+                                    <h5 class="subheader">Routes for stop:</h5>
+                                    <ul class="nearby-stop-routes no-bullet">
+                                        {{# .route: routeIndex}}
+                                            <li class="button nearby-stop-route" on-click="favoriteStop">
+                                                {{route}}
+                                            </li>
+                                        {{/.route}}
+                                    </ul>
+                                </div>
                             </li>
                         {{/nearbyStops}}
                         </ul>
                     {{/showNearbyStops}}
                     </div>
+                </div>
 
-
+                <div class="control-container">
+                    <ul class="menu-options no-bullet">
+                        {{#mapShown}}
+                            <li on-click="showStopsOnMap">S</li>
+                            <li on-click="showBusesOnMap">B</li>
+                            <li on-click="showMaxOnMap">M</li>
+                            <li on-click="showStreetCar">SC</li>
+                            <li class="separator"></li>
+                        {{/mapShown}}
+                        <li class="button" on-click="showMap">M</li>
+                        <li class="button" on-click="showSearch">S</li>
+                        <li class="button" on-click="showFavorites">F</li>
+                    </ul>
                 </div>
             </div>
         </script>
@@ -79,17 +95,17 @@
             <div class="vehicle in"><b></b><i><span></span></i></div>
         </script>
 
-
+        <script type="text/javascript" src="js/config.js"></script>
         <script type="text/javascript" src="phonegap.js"></script>
+        <script type="text/javascript" src="SQLitePlugin.js"></script>
         <script type="text/javascript" src="js/leaflet.js"></script>
         <script type="text/javascript" src="js/superagent.js"></script>  
-        <script type="text/javascript" src="js/vendor/fastclick.js"></script>  
         <script type="text/javascript" src="js/vendor/jquery.js"></script>
         <script type="text/javascript" src="js/foundation.min.js"></script>
 
 
         <script type="text/javascript" src="js/socket.io-1.0.2.js"></script>
-        <script src="http://cdn.ractivejs.org/latest/ractive.js"></script>
+        <script src="js/ractive.js"></script>
         <script src="js/trimet.js"></script>
         <script src="js/connect.js"></script>
         <script src="js/map.js"></script>

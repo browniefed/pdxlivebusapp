@@ -1,0 +1,35 @@
+.control-container {
+	position: absolute;
+	left: 0;
+	bottom: 100px;
+
+	.menu-options {
+		
+
+		li {
+			width: 44px;
+			height: 44px;
+			line-height: 44px;
+			text-align: center;
+			border: 1px solid #DDD;
+			border-left: none;
+			border-top: none;
+
+			padding: 0;
+			margin: 0;
+			display: block;
+			background-color: $button-opposite;
+			color: $button-color;
+
+			&:hover {
+				color: $button-opposite;
+				background-color: $button-color;
+			}
+		}
+
+
+		li:first-child {
+			border-top: 1px solid #DDD;
+		}
+	}
+}

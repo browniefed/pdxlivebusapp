@@ -1,7 +1,7 @@
 var connect = (function() {
 
 	var cb,
-		socketUrl = 'http://pdxlivebus.herokuapp.com/',
+		socketUrl = window.ENV.baseUrl,
 		socket;
 
 	function connect(fn) {

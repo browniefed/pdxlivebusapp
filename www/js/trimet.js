@@ -1,9 +1,18 @@
 var trimet = (function() {
 
-	var baseUrl = 'http://pdxlivebus.herokuapp.com/'
+	var baseUrl = window.ENV.baseUrl;
 
 	function searchForStops(ll, cb) {
-		superagent.get(baseUrl + 'findStops/' + ll).withCredentials().end(cb);
+		var url = baseUrl + 'findStops/' + ll;
+		$.ajax({
+			url: url,
+        	crossDomain: true,
+        	dataType: 'json',
+			success: cb,
+			error: function(err) {
+				alert(err);
+			}
+		});
 	}
 
 	return {
