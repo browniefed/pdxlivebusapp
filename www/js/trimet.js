@@ -1,17 +1,13 @@
 var trimet = (function() {
 
-	var baseUrl = window.ENV.baseUrl;
+	var baseUrl = window.ENV.baseUrl,
+		stopUrl = url = baseUrl + 'findStops/';
 
-	function searchForStops(ll, cb) {
-		var url = baseUrl + 'findStops/' + ll;
-		$.ajax({
-			url: url,
+	function searchForStops(ll) {
+		return $.ajax({
+			url: stopUrl + ll,
         	crossDomain: true,
-        	dataType: 'json',
-			success: cb,
-			error: function(err) {
-				alert(err);
-			}
+        	dataType: 'json'
 		});
 	}
 

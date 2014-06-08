@@ -7,23 +7,36 @@ var app = (function(map, connect, user, trimet) {
 		}
 
 	function initialize() {
-		// connect.connect(connectionUpdates);
+		connect.connect(connectionUpdates);
 		render(user.loadDefaults());
 	}
 
-	function render(data) {
-		ractive = new Ractive({
-			el: 'body', 
-			template: '#appTemplate',
-			data: data,
-			components: {
-				Map: map
-			}
+	function render(dataPromise) {
+
+		dataPromise.done(function(data) {
+			ractive = new Ractive({
+				el: 'body', 
+				template: '#appTemplate',
+				data: {
+					favoriteStops : parseFavoriteStops(data)
+				},
+				components: {
+					Map: map
+				}
+			});
+			attachRactiveListeners();
 		});
-
-		attachRactiveListeners();
+		
 	}
+	function parseFavoriteStops(stopArray) {
+		var favorites = {};
+		stopArray.forEach(function(stop) {
+			favorites[stop.stopId] = favorites[stop.stopId] || {};
+			favorites[stop.stopId][stop.route] = true;
+		});
+		return favorites;
 
+	}
 	function attachRactiveListeners() {
 		ractive && ractive.on({
 			toggleMap: function() {},
@@ -35,7 +48,11 @@ var app = (function(map, connect, user, trimet) {
 			searchForStops: searchForStops,
 			showNearbyStops: searchForStops,
 			favoriteStop: function(e) {
-				user.addFavoriteStop(e.context.locid);
+				var stopId = this.get('nearbyStops.' + e.index.routeIndex),
+					route = e.context.route + '';
+				user.addFavoriteStop(stopId, route);
+
+				this.set('favoriteStops.' + stopId + '.' + route, true);
 			}
 		})
 	}
@@ -78,19 +95,30 @@ var app = (function(map, connect, user, trimet) {
 		e.original.preventDefault();
 		ractive.set('showNearbyStops', true);
 		ractive.set('nearbyStops', []);
-		user.getUserLocation(function(position) {
-			trimet.searchForStops(position.coords.longitude + ',' + position.coords.latitude, function(stops) {
+		var positionPromise = user.getUserLocation();
+
+		positionPromise.done(function(position) {
+			var stopsPromise = trimet.searchForStops(position.coords.longitude + ',' + position.coords.latitude) 
+
+			stopsPromise.done(function(stops) {
 				ractive.set('nearbyStops', stops);
 			});
-		}, function(error) {
+
+			stopsPromise.fail(function() {
+				alert('Failed to get nearby stops');
+			});
+
+		});
+
+		positionPromise.fail(function(error) {
 			 alert('code: '    + error.code  + 'message: ' + error.message);
-		})
+		});
 	}
 
 	return {
 		initialize: initialize
 	}
 
-}(map, connect, user, trimet));
+}(map, connect(), user(), trimet));
 
 document.addEventListener('deviceready', app.initialize, false);
