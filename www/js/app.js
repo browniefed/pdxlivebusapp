@@ -48,11 +48,18 @@ var app = (function(map, connect, user, trimet) {
 			searchForStops: searchForStops,
 			showNearbyStops: searchForStops,
 			favoriteStop: function(e) {
-				var stopId = this.get('nearbyStops.' + e.index.routeIndex),
-					route = e.context.route + '';
-				user.addFavoriteStop(stopId, route);
+				var stopId = this.get('nearbyStops.' + e.index.stopIndex + '.locid') + '',
+					route = e.context.route + '',
+					favoriteKeyPath = 'favoriteStops.' + stopId + '.' + route,
+					favoriteStop = this.get(favoriteKeyPath);
 
-				this.set('favoriteStops.' + stopId + '.' + route, true);
+				if (!favoriteStop) {
+					user.addFavoriteStop(stopId, route);
+				} else {
+					user.deleteStop(stopId, route);
+				}
+
+				this.set('favoriteStops.' + stopId + '.' + route, !favoriteStop);
 			}
 		})
 	}

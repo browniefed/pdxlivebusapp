@@ -67,11 +67,11 @@ var user = (function() {
 					params = [stopId];
 				if (route) {
 					query += ' AND route = ?';
-					parmas.push(route);
+					params.push(route);
 				}
 
 				tx.executeSql('DELETE FROM favorites WHERE ' + query, params, function() {
-					promise.resolve();
+ 					promise.resolve();
 				});
 			});
 
