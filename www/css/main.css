@@ -78,23 +78,28 @@
   width: 100%;
 }
 /* line 10, ../sass/sass/_listOverlay.scss */
+.list-container .stop-card-container {
+  padding: 0 50px;
+}
+/* line 13, ../sass/sass/_listOverlay.scss */
 .list-container .stop-card {
   background: #FFF;
-  border-top: 1px solid #DDD;
-  border-bottom: 1px solid #DDD;
+  border: 1px solid #DDD;
+  border-bottom: 3px solid #BBB;
+  padding: 10px;
   -webkit-box-shadow: #dddddd;
   -moz-box-shadow: #dddddd;
   box-shadow: #dddddd;
 }
-/* line 16, ../sass/sass/_listOverlay.scss */
+/* line 20, ../sass/sass/_listOverlay.scss */
 .list-container .nearby-stop-routes-container {
   display: inline-block;
 }
-/* line 19, ../sass/sass/_listOverlay.scss */
+/* line 23, ../sass/sass/_listOverlay.scss */
 .list-container .nearby-stop-routes {
   display: block;
 }
-/* line 22, ../sass/sass/_listOverlay.scss */
+/* line 26, ../sass/sass/_listOverlay.scss */
 .list-container .nearby-stop-route {
   background-color: white;
   color: #007095;
@@ -107,15 +112,24 @@
   margin-left: 10px;
   line-height: 50px;
 }
-/* line 34, ../sass/sass/_listOverlay.scss */
+/* line 38, ../sass/sass/_listOverlay.scss */
 .list-container .nearby-stop-route:hover {
   color: #007095;
   background-color: white;
 }
-/* line 38, ../sass/sass/_listOverlay.scss */
+/* line 42, ../sass/sass/_listOverlay.scss */
 .list-container .nearby-stop-route.favorite {
   background-color: #007095;
   color: white;
+}
+/* line 48, ../sass/sass/_listOverlay.scss */
+.list-container .favorited-stops {
+  display: block;
+  width: 100%;
+}
+/* line 52, ../sass/sass/_listOverlay.scss */
+.list-container .favorite-stop-lead-up {
+  clear: both;
 }
 
 /* line 1, ../sass/sass/_map.scss */

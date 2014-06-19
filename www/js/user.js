@@ -3,7 +3,10 @@ var user = (function() {
 		var db = window.localStorage;
 
 		function loadDefaults() {
-			return getFavorites();
+			return {
+				favoriteStops: getFavorites(),
+				stopList: stopList
+			}
 		}
 
 		function getFavorites() {
@@ -34,11 +37,17 @@ var user = (function() {
 
 		function getUserLocation() {
 			var promise = $.Deferred();
-			navigator.geolocation.getCurrentPosition(function(position) {
-				promise.resolve(position);
-			}, function(err) {
-				promise.reject(err);
-			}, {maximumAge: 0, timeout:10000, enableHighAccuracy: false});
+			// navigator.geolocation.getCurrentPosition(function(position) {
+			// 	promise.resolve(position);
+			// }, function(err) {
+			// 	promise.reject(err);
+			// }, {maximumAge: 0, timeout:10000, enableHighAccuracy: false});
+			promise.resolve({
+				coords: {
+					longitude: -122.63924639999999,
+					latitude: 45.532004699999995
+				}
+			})
 			return promise;
 		}
 

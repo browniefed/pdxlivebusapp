@@ -7,10 +7,14 @@
 		width: 100%;
 	}
 
+	.stop-card-container {
+		padding: 0 50px;
+	}
 	.stop-card {
 		background: #FFF;
-		border-top: 1px solid #DDD;
-		border-bottom: 1px solid #DDD;
+		border: 1px solid #DDD;
+		border-bottom: 3px solid #BBB;
+		padding: 10px;
 		@include box-shadow(#DDD);
 	}
 	.nearby-stop-routes-container {
@@ -39,5 +43,13 @@
 			background-color: $button-color;
 			color: $button-opposite;
 		}
+	}
+
+	.favorited-stops {
+		display: block;
+		width: 100%;
+	}
+	.favorite-stop-lead-up {
+		clear: both;
 	}
 }

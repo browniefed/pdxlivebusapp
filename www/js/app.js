@@ -9,16 +9,96 @@ var app = (function(map, connect, user, trimet) {
 	function initialize() {
 		connect.connect(connectionUpdates);
 		render(user.loadDefaults());
+		
 	}
 
 	function render(data) {
 
+		data.favoriteStops = parseFavoriteStops(data.favoriteStops);
+		data.getPreviousStops = function(route, stopId) {
+			var dirs = [0,1],
+				stops,
+				locationIndex;
+		_.each(dirs, function(dir) {
+			if ( !(locationIndex >= 0)) {
+				stops = routeConfig[route].dir[dir].stop;
+				_.find(stops, function(stop, index) {
+					if (stop.locid == stopId) {
+						locationIndex = index;
+						return true;
+					}
+				});
+			}
+		})			
+
+
+
+			return stops.slice((locationIndex - 4 < 0 ? 0 : locationIndex  - 4), locationIndex + 1);
+		}
+
+		data.busAtStop = function(route, stopId, currentStop) {
+			return currentStop == this.get('busPositions.' + route + '.' + stopId);
+
+		}
+
+		data.getCurrentBusStop = function(route, currentStopId) {
+			var dirs = [0,1],
+				stops,
+				locationIndex,
+				busPositionInfo = this.get('busPositionInfo'),
+				stopId = this.get('busPositionInfo.' + route + '.' + currentStopId + '.currentStop');
+
+
+			_.each(dirs, function(dir) {
+				if ( !(locationIndex >= 0)) {
+					stops = routeConfig[route].dir[dir].stop;
+					_.find(stops, function(stop, index) {
+						if (stop.locid == stopId) {
+							locationIndex = index;
+							return true;
+						}
+					});
+				}
+			});
+
+			var stop = stops[locationIndex];
+			if (stop) {
+				return stop.desc + ' - ' + stop.locid;
+			}
+			return '';
+
+
+		}
+
+		data.getEstimatedTime = function(route, stopId) {
+			var busPositionInfo = this.get('busPositionInfo');
+			return moment(this.get('busPositionInfo.' + route + '.' + stopId + '.estimatedArrival')).format('MMMM Do YYYY, h:mm:ss a');
+		}
+		data.getInCongestion = function(route, stopId) {
+			var busPositionInfo = this.get('busPositionInfo');
+			return this.get('busPositionInfo.' + route + '.' + stopId + '.inCongestion');
+		}
+		data.getPassengerLoad = function(route, stopId) {
+			var busPositionInfo = this.get('busPositionInfo');
+			return this.get('busPositionInfo.' + route + '.' + stopId + '.loadPercentage');
+		}
+		data.getBusDelay = function(route, stopId) {
+			var busPositionInfo = this.get('busPositionInfo');
+			var delay = this.get('busPositionInfo.' + route + '.' + stopId + '.delay');
+			if (delay == 0) {
+				return 'bus is on time';
+			} else if (delay < 0) {
+				return 'bus is  ' + (delay * -1) + ' seconds late';
+			} else if (delay > 0) {
+				return 'bus is  ' + delay + ' seconds early';
+			}
+			return '';
+		}
+
 		ractive = new Ractive({
 			el: 'body', 
 			template: '#appTemplate',
-			data: {
-				favoriteStops : parseFavoriteStops(data)
-			},
+			data: data,
 			components: {
 				Map: map
 			}
@@ -60,6 +140,9 @@ var app = (function(map, connect, user, trimet) {
 
 				this.set('favoriteStops.' + stopId + '.' + route, !favoriteStop);
 				e.original.preventDefault();
+			},
+			showFavorites: function() {
+				this.set('showNearbyStops', false);
 			}
 		})
 	}
@@ -71,14 +154,12 @@ var app = (function(map, connect, user, trimet) {
 		} else if(event == 'connect') {
 			connect.registerForVehicles(handleVehicleUpdates);
 			if (user.getFavorites()) {
-				user.getFavorites().forEach(function(favorite) {
-					//This can be simplified and made smarter
-					if (favorite.type == TYPES.VEHICLE) {
-						connect.registerRoom('v' + favorite.id);
-					} else if (favorite.type == TYPES.ROUTE) {
-						connect.registerRoom('r' + favorite.id);
-					}
-				})
+				var favoriteStops = parseFavoriteStops(user.getFavorites());
+				_.each(favoriteStops, function(routes, stop) {
+					_.each(routes, function(reg, route) {
+						connect.registerRoom('s'+stop+'r'+route);
+					});
+				});
 			}
 
 			//get user preference and register the specific rooms/busses
@@ -88,8 +169,22 @@ var app = (function(map, connect, user, trimet) {
 	}
 
 	function handleVehicleUpdates(vehicle) {
-		if (ractive) {
-			var vehicles = ractive.get('vehicles.' + vehicle.vehicleID, vehicle);
+		if (ractive && vehicle && vehicle.route && vehicle.locid && vehicle.currentStop) {
+			var busPositionInfo = ractive.get('busPositionInfo') || {};
+
+				busPositionInfo[vehicle.route] = busPositionInfo[vehicle.route] || {};
+				busPositionInfo[vehicle.route][vehicle.locid] = busPositionInfo[vehicle.route][vehicle.locid] || {};
+
+				busPositionInfo[vehicle.route][vehicle.locid] = {
+					currentStop: vehicle.currentStop,
+					estimatedArrival: vehicle.estimated,
+					loadPercentage: vehicle.loadPercentage,
+					inCongestion: vehicle.inCongestion,
+					delay: ((vehicle.vehicleInfo || {}).delay) || 0
+				}
+			ractive.set('busPositionInfo', busPositionInfo);
+
+			debugger;
 		}
 	}
 
@@ -128,4 +223,5 @@ var app = (function(map, connect, user, trimet) {
 
 }(map, connect(), user(), trimet));
 
+app.initialize();
 document.addEventListener('deviceready', app.initialize, false);

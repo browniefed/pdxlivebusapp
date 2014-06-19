@@ -23,7 +23,7 @@ var connect = (function() {
 		}
 
 		function registerForVehicles(fn) {
-			socket && socket.on('vehicle', fn);
+			socket && socket.on('vehicleChange', fn);
 		}
 
 		function disconnect() {
