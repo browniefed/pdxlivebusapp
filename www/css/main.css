@@ -153,13 +153,60 @@ html, body, .map-container {
   right: 0;
 }
 
-/* line 12, ../sass/sass/main.scss */
+/* line 2, ../sass/sass/_vehicleCard.scss */
+.vehicle_card {
+  width: 100%;
+  max-width: 200px;
+  height: 100%;
+  max-height: 200px;
+  position: relative;
+  margin: 10px;
+  box-shadow: 0px 0px 7px #f1f1f1;
+  background-color: #FFF;
+  border: 1px solid #f3f3f3;
+  border-radius: 1px;
+}
+/* line 14, ../sass/sass/_vehicleCard.scss */
+.vehicle_card .center_time {
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  line-height: 200px;
+}
+/* line 21, ../sass/sass/_vehicleCard.scss */
+.vehicle_card .circle_stops {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+/* line 26, ../sass/sass/_vehicleCard.scss */
+.vehicle_card .circle_stops .circle_stop {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  border: 1px solid #CCC;
+  text-align: center;
+  padding-top: 2px;
+}
+/* line 35, ../sass/sass/_vehicleCard.scss */
+.vehicle_card .circle_stops .circle_stop.highlighted {
+  color: #FFF;
+  background-color: #000;
+}
+/* line 39, ../sass/sass/_vehicleCard.scss */
+.vehicle_card .circle_stops .circle_stop.target {
+  color: #FFF;
+  background-color: #aaa;
+}
+
+/* line 14, ../sass/sass/main.scss */
 .app-container {
   width: 100%;
   height: 100%;
 }
 
-/* line 17, ../sass/sass/main.scss */
+/* line 19, ../sass/sass/main.scss */
 * {
   box-sizing: border-box;
 }
