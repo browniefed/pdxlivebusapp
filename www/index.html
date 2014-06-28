@@ -74,29 +74,28 @@
                     {{# favoriteStops: stopLocid}}
                         <ul class="no-bullet stop-card-container">
                             <li class="stop-card">
+
+
                                 <h3>{{stopList[stopLocid].desc}} - {{stopLocid}}</h3>
+                                {{#.:route}}
                                     <div class="nearby-stop-routes-container  favorited-stops">
                                          <div class="vehicle_card">
                                             <div class="center_time">
-                                                3:50
+                                                {{getEstimatedTime(route, stopLocid)}}
                                             </div>
                                             <ul class="circle_stops no-bullet">
-                                                <li class="circle_stop"></li>
-                                                <li class="circle_stop"></li>
-                                                <li class="circle_stop"></li>
-                                                <li class="circle_stop"></li>
-                                                <li class="circle_stop"></li>
-                                                <li class="circle_stop"></li>
-                                                <li class="circle_stop highlighted">77</li>
-                                                <li class="circle_stop"></li>
-                                                <li class="circle_stop target">X</li>
-                                                <li class="circle_stop"></li>
-                                                <li class="circle_stop"></li>
-                                                <li class="circle_stop"></li>
+                                            {{#getPreviousStops(route, stopLocid):prevStopIndex}}
+                                                <li class="circle_stop {{#stopLocid == busAtStop(route, stopLocid)}} highlighed {{/}}" style="{{circlePosition(prevStopIndex, route, favoriteStops)}}">
+                                                    {{#prevStopIndex == 8}}
+                                                        {{route}}
+                                                    {{/}}
+                                                </li>
+                                            {{/}}
                                             </ul>
                                         </div>
 
                                     </div>
+                                {{/}}
                             </li>
 
                         </ul>
@@ -145,29 +144,6 @@
         <script src="js/stopList.js"></script>
         <script src="js/routeConfigSorted.js"></script>
         <script src="js/app.js"></script>
-
-
-
-        <script>
-
-        var div = 360/12;
-        var radius = 75;
-        var parentDiv = document.querySelector('.vehicle_card');
-        var offsetToParentCenter = parseInt(parentDiv.offsetWidth/2);
-        var offsetToChildrenCenter = 15;
-        var totalOffset = offsetToParentCenter - offsetToChildrenCenter;
-        var stop;
-        for (var i = 1; i <= 12; i++) {
-            stop = $('.circle_stop').eq(i - 1);
-
-            var y = Math.sin( (div * i) * (Math.PI/180)) * radius;
-            var x = Math.cos( (div * i) * (Math.PI/180)) * radius;
-
-            stop.css('left', x + totalOffset);
-            stop.css('top', y + totalOffset);
-
-        }
-        </script>
 
     
     </body>

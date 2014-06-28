@@ -155,9 +155,9 @@ html, body, .map-container {
 
 /* line 2, ../sass/sass/_vehicleCard.scss */
 .vehicle_card {
-  width: 100%;
+  width: 200px;
   max-width: 200px;
-  height: 100%;
+  height: 200px;
   max-height: 200px;
   position: relative;
   margin: 10px;
@@ -178,8 +178,9 @@ html, body, .map-container {
   position: relative;
   width: 100%;
   height: 100%;
+  margin: 0;
 }
-/* line 26, ../sass/sass/_vehicleCard.scss */
+/* line 27, ../sass/sass/_vehicleCard.scss */
 .vehicle_card .circle_stops .circle_stop {
   position: absolute;
   width: 30px;
@@ -189,12 +190,12 @@ html, body, .map-container {
   text-align: center;
   padding-top: 2px;
 }
-/* line 35, ../sass/sass/_vehicleCard.scss */
+/* line 36, ../sass/sass/_vehicleCard.scss */
 .vehicle_card .circle_stops .circle_stop.highlighted {
   color: #FFF;
   background-color: #000;
 }
-/* line 39, ../sass/sass/_vehicleCard.scss */
+/* line 40, ../sass/sass/_vehicleCard.scss */
 .vehicle_card .circle_stops .circle_stop.target {
   color: #FFF;
   background-color: #aaa;

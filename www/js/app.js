@@ -15,6 +15,20 @@ var app = (function(map, connect, user, trimet) {
 	function render(data) {
 
 		data.favoriteStops = parseFavoriteStops(data.favoriteStops);
+
+		data.circlePosition = function(stopIndex) {
+			var div = 360/12;
+	        var radius = 75;
+	        var offsetToParentCenter = 100;
+	        var offsetToChildrenCenter = 15;
+	        var totalOffset = offsetToParentCenter - offsetToChildrenCenter;
+	        var stop;
+	    	var i = stopIndex + 1;
+            var y = Math.sin( (div * i) * (Math.PI/180)) * radius;
+            var x = Math.cos( (div * i) * (Math.PI/180)) * radius;
+
+           	return 'left:' + (x + totalOffset) + 'px; top:' + (y + totalOffset) + 'px;';
+		}
 		data.getPreviousStops = function(route, stopId) {
 			var dirs = [0,1],
 				stops,
@@ -33,12 +47,11 @@ var app = (function(map, connect, user, trimet) {
 
 
 
-			return stops.slice((locationIndex - 4 < 0 ? 0 : locationIndex  - 4), locationIndex + 1);
+			return stops.slice((locationIndex - 11 < 0 ? 0 : locationIndex  - 11), locationIndex + 1);
 		}
 
-		data.busAtStop = function(route, stopId, currentStop) {
-			return currentStop == this.get('busPositions.' + route + '.' + stopId);
-
+		data.busAtStop = function(route, stopId) {
+			return this.get('busPositionInfo.' + route + '.' + stopId + '.currentStop');
 		}
 
 		data.getCurrentBusStop = function(route, currentStopId) {
@@ -95,6 +108,8 @@ var app = (function(map, connect, user, trimet) {
 			return '';
 		}
 
+		data.busPositionInfo = {};
+
 		ractive = new Ractive({
 			el: 'body', 
 			template: '#appTemplate',
@@ -103,6 +118,7 @@ var app = (function(map, connect, user, trimet) {
 				Map: map
 			}
 		});
+		window.ractive = ractive;
 
 		attachRactiveListeners();
 		
@@ -182,9 +198,11 @@ var app = (function(map, connect, user, trimet) {
 					inCongestion: vehicle.inCongestion,
 					delay: ((vehicle.vehicleInfo || {}).delay) || 0
 				}
-			ractive.set('busPositionInfo', busPositionInfo);
 
-			debugger;
+			ractive.set('busPositionInfo', {});
+			ractive.set('busPositionInfo', busPositionInfo);
+			ractive.update('busPositionInfo');
+			console.log(busPositionInfo);
 		}
 	}
 
