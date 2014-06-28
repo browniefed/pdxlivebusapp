@@ -118,7 +118,6 @@ var app = (function(map, connect, user, trimet) {
 				Map: map
 			}
 		});
-		window.ractive = ractive;
 
 		attachRactiveListeners();
 		
@@ -199,10 +198,7 @@ var app = (function(map, connect, user, trimet) {
 					delay: ((vehicle.vehicleInfo || {}).delay) || 0
 				}
 
-			ractive.set('busPositionInfo', {});
 			ractive.set('busPositionInfo', busPositionInfo);
-			ractive.update('busPositionInfo');
-			console.log(busPositionInfo);
 		}
 	}
 

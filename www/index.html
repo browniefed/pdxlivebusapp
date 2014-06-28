@@ -81,7 +81,7 @@
                                     <div class="nearby-stop-routes-container  favorited-stops">
                                          <div class="vehicle_card">
                                             <div class="center_time">
-                                                {{getEstimatedTime(route, stopLocid)}}
+                                                {{stopLocid}}:{{busPositionInfo[route][stopLocid].currentStop}}
                                             </div>
                                             <ul class="circle_stops no-bullet">
                                             {{#getPreviousStops(route, stopLocid):prevStopIndex}}
