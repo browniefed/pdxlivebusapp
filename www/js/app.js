@@ -45,8 +45,6 @@ var app = (function(map, connect, user, trimet) {
 			}
 		})			
 
-
-
 			return stops.slice((locationIndex - 11 < 0 ? 0 : locationIndex  - 11), locationIndex + 1);
 		}
 
