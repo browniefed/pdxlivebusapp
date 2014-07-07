@@ -1,5 +1,5 @@
-var AppDispatcher = require('../dispatcher/app_dispatcher');
-var AppConstants = require('../constants/app-concasts');
+var AppDispatcher = require('../dispatchers/app_dispatcher');
+var AppConstants = require('../constants/app_constants');
 var merge = require('react/lib/merge');
 var EventEmitter = require('events').EventEmitter;
 
@@ -82,7 +82,7 @@ var AppStore = merge(EventEmitter.prototype, {
 		var action = payload.action;
 
 		switch(action.actionType) {
-			case AppConstants.TOGGLE_FAVORITE
+			case AppConstants.TOGGLE_FAVORITE:
 				_toggleFavorite(payload.action.favorite);
 				break;
 		}
