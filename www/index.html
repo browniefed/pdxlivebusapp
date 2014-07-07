@@ -1,22 +1,4 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
         <meta charset="utf-8" />
@@ -31,121 +13,14 @@
         <title>PDXLiveBus</title>
     </head>
     <body>
+        <div id="app-container"></div>
+        <script src="js/config_app.js"></script>
+        <script src="phonegap.js"></script>
+        <script src="js/build/main.js"></script>
 
-        <script type="text/ractive" id="appTemplate">
-            <div class="app-container">
-
-                <div class="menu-container">
-                    <button class="searchBtn" on-click="openSearch">Search</button>
-                </div>
-
-                {{#map}}
-                <div class="map-container">
-                    <Map markers="{{markers}}"></Map>
-                </div>
-                {{/map}}
-
-                <div class="list-container">
-                    {{# !favoriteStops.length || showNearbyStops}}
-                        <a href="#" on-click="showNearbyStops">Show nearby stops</a>
-                        <div>
-                        {{# showNearbyStops}}
-                            <ul class="no-bullet stop-card-container">
-                            {{# nearbyStops:stopIndex}}
-                                <li class="stop-card">
-                                    <h3>{{desc}} - {{locid}}</h3>
-                                    <div class="nearby-stop-routes-container">
-                                        <h5 class="subheader">Routes for stop:</h5>
-                                        <ul class="nearby-stop-routes no-bullet">
-                                            {{# .route: routeIndex}}
-                                                <li class="button nearby-stop-route {{# favoriteStops[locid][route]}} favorite {{/favoriteStops}}" on-click="favoriteStop">
-                                                    {{route}}
-                                                </li>                                        
-                                            {{/.route}}
-                                        </ul>
-                                    </div>
-                                </li>
-                            {{/nearbyStops}}
-                            </ul>
-                        {{/showNearbyStops}}
-                        </div>
-                    {{/favoriteStops}}
-
-                    {{# favoriteStops: stopLocid}}
-                        <ul class="no-bullet stop-card-container">
-                            <li class="stop-card">
-
-
-                                <h3>{{stopList[stopLocid].desc}} - {{stopLocid}}</h3>
-                                {{#.:route}}
-                                    <div class="nearby-stop-routes-container  favorited-stops">
-                                         <div class="vehicle_card">
-                                            <div class="center_time">
-                                                {{stopLocid}}:{{busPositionInfo[route][stopLocid].currentStop}}
-                                            </div>
-                                            <ul class="circle_stops no-bullet">
-                                            {{#getPreviousStops(route, stopLocid):prevStopIndex}}
-                                                <li class="circle_stop {{#stopLocid == busAtStop(route, stopLocid)}} highlighed {{/}}" style="{{circlePosition(prevStopIndex, route, favoriteStops)}}">
-                                                    {{#prevStopIndex == 8}}
-                                                        {{route}}
-                                                    {{/}}
-                                                    {{locid}}
-                                                </li>
-                                            {{/}}
-                                            </ul>
-                                        </div>
-
-                                    </div>
-                                {{/}}
-                            </li>
-
-                        </ul>
-
-                    {{/favoriteStops}}
-                </div>
-
-                <div class="control-container">
-                    <ul class="menu-options no-bullet">
-                        {{#mapShown}}
-                            <li on-click="showStopsOnMap">S</li>
-                            <li on-click="showBusesOnMap">B</li>
-                            <li on-click="showMaxOnMap">M</li>
-                            <li on-click="showStreetCar">SC</li>
-                            <li class="separator"></li>
-                        {{/mapShown}}
-                        <li class="button" on-click="showMap">M</li>
-                        <li class="button" on-click="showSearch">S</li>
-                        <li class="button" on-click="showFavorites">F</li>
-                    </ul>
-                </div>
-            </div>
+        <script>
+            window.initApp(document.getElementById('app-container'));
+            document.addEventListener('deviceready', window.initApp.bind(null, document.getElementById('app-container')), false);
         </script>
-
-        <script id="mapTemplate" type="text/ractive">
-            <div class="map"></div>
-        </script>
-
-        <script type="text/ractive" id="vehicle">
-            <div class="vehicle in"><b></b><i><span></span></i></div>
-        </script>
-
-        <script type="text/javascript" src="js/config_app.js"></script>
-        <script type="text/javascript" src="phonegap.js"></script>
-        <script type="text/javascript" src="js/leaflet.js"></script>
-        <script type="text/javascript" src="js/vendor/jquery.js"></script>
-        <script type="text/javascript" src="js/foundation.min.js"></script>
-        <script type="text/javascript" src="js/socket.io-1.0.2.js"></script>
-        <script type="text/javascript" src="js/lodash.js"></script>
-        <script type="text/javascript" src="js/moment.min.js"></script>
-        <script src="js/ractive.js"></script>
-        <script src="js/trimet.js"></script>
-        <script src="js/connect.js"></script>
-        <script src="js/map.js"></script>
-        <script src="js/user.js"></script>
-        <script src="js/stopList.js"></script>
-        <script src="js/routeConfigSorted.js"></script>
-        <script src="js/app.js"></script>
-
-    
     </body>
 </html>

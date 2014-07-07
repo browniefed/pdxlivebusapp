@@ -3,3 +3,5 @@ platforms/*
 plugins/*
 www/browniefed.sublime-project
 www/browniefed.sublime-workspace
+www/node_modules
+www/js/build/.module-cache

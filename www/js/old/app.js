@@ -1,18 +1,51 @@
-var app = (function(map, connect, user, trimet) {
+var app = (function(connect, user, trimet) {
 
 	var ractive,
+		STATES = {
+			FAVORITE_STOP: 1,
+			NEARBY_STOPS: 2,
+		},
+		STATE_SELECTORS = {
+
+		},
+		STATE_CONTAINERS = {},
+		CURRENT_STATE = STATES.FAVORITE_STOP,
 		TYPES = {
 			VEHICLE: 'vehicle',
 			ROUTE: 'route'
+		},
+		STATE_RENDERER = {
+
 		}
+
+	STATE_SELECTORS[STATES.FAVORITE_STOP] = '#favorite-stops-container';
+	STATE_SELECTORS[STATES.NEARBY_STOPS] = '#nearby-stops-container';
+
+	STATE_CONTAINERS[STATES.FAVORITE_STOP] = $(STATE_SELECTORS[STATES.FAVORITE_STOP]);
+	STATE_CONTAINERS[STATES.NEARBY_STOPS] = $(STATE_SELECTORS[STATES.NEARBY_STOPS]);
+
+	STATE_RENDERER[STATES.FAVORITE_STOP] = renderFavoriteStops;
+	STATE_RENDERER[STATES.NEARBY_STOPS] = renderNearbyStops;
 
 	function initialize() {
 		connect.connect(connectionUpdates);
-		render(user.loadDefaults());
+		renderState(CURRENT_STATE);
 		
 	}
 
-	function render(data) {
+	function setState(STATE) {
+		
+		STATE_CONTAINERS[CURRENT_STATE].hide()
+		CURRENT_STATE = STATE;
+		STATE_CONTAINERS[CURRENT_STATE].show();
+		renderState(CURRENT_STATE);
+	}
+
+	function renderState(STATE) {
+		render(user.loadDefaults(), STATE_RENDERER[STATE], STATE_CONTAINERS[STATE].get(0));
+	}
+
+	function render(data, renderer, el) {
 
 		data.favoriteStops = parseFavoriteStops(data.favoriteStops);
 
@@ -108,17 +141,12 @@ var app = (function(map, connect, user, trimet) {
 
 		data.busPositionInfo = {};
 
-		ractive = new Ractive({
-			el: 'body', 
-			template: '#appTemplate',
-			data: data,
-			components: {
-				Map: map
-			}
-		});
-
-		attachRactiveListeners();
 		
+
+		renderer(data, el);
+
+
+
 	}
 	function parseFavoriteStops(stopArray) {
 		var favorites = {};
@@ -130,34 +158,7 @@ var app = (function(map, connect, user, trimet) {
 
 	}
 	function attachRactiveListeners() {
-		ractive && ractive.on({
-			toggleMap: function() {},
-			searchVehicle: function() {},
-			addFavoriteStop: function() {},
-			openSearch: function(e) {
-				this.toggle('searchVisible');
-			},
-			searchForStops: searchForStops,
-			showNearbyStops: searchForStops,
-			favoriteStop: function(e) {
-				var stopId = this.get('nearbyStops.' + e.index.stopIndex + '.locid') + '',
-					route = e.context.route + '',
-					favoriteKeyPath = 'favoriteStops.' + stopId + '.' + route,
-					favoriteStop = this.get(favoriteKeyPath);
 
-				if (!favoriteStop) {
-					user.addFavoriteStop(stopId, route);
-				} else {
-					user.deleteStop(stopId, route);
-				}
-
-				this.set('favoriteStops.' + stopId + '.' + route, !favoriteStop);
-				e.original.preventDefault();
-			},
-			showFavorites: function() {
-				this.set('showNearbyStops', false);
-			}
-		})
 	}
 
 	function connectionUpdates(event, msg, socket) {
@@ -233,7 +234,7 @@ var app = (function(map, connect, user, trimet) {
 		initialize: initialize
 	}
 
-}(map, connect(), user(), trimet));
+}(connect(), user(), trimet));
 
 app.initialize();
 document.addEventListener('deviceready', app.initialize, false);
