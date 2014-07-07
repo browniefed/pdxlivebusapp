@@ -11,8 +11,6 @@ var Nav = React.createClass({
 	},
 
 	render: function() {
-
-debugger;
 		var navs = [],
 			nav;
 

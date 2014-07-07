@@ -20,7 +20,7 @@ var App = React.createClass({
  		return {
  			favoriteStops: [],
  			vehicles: {},
- 			nearbyStops: []
+ 			nearbyStops: AppStore.getNearbyStops()
  		};
  	},
  	getView: function() {

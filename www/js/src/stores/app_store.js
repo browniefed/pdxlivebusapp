@@ -7,6 +7,19 @@ var EventEmitter = require('events').EventEmitter;
 var CHANGE_EVENT = 'change';
 var db = window.localStorage;
 
+var nearbyStops = [
+	{
+		locid: 635,
+		desc: '24th & Broadway',
+		routes: [
+			{route: 17},
+			{route: 77},
+			{route: 70}
+		]
+	}
+
+
+]
 
 //MOVE THIS STUFF INTO A STORE? A UTILITY ? I DO NOT KNOW
 function _toggleFavorite(favorite) {
@@ -17,6 +30,12 @@ function _toggleFavorite(favorite) {
 	}
 }
 
+function _loadNearbyStops() {
+
+}
+function getNearbyStops() {
+	return nearbyStops;
+}
 function _isFavorite(favorite) {	
 	return getFavoriteIndex(favorite) < 0;
 }
@@ -71,6 +90,7 @@ var AppStore = merge(EventEmitter.prototype, {
 		this.emit(CHANGE_EVENT);
 	},
 	getFavorites: getFavorites,
+	getNearbyStops: getNearbyStops,
 	addChangeListener: function(callback) {
 		this.on(CHANGE_EVENT, callback);
 	},
@@ -84,6 +104,9 @@ var AppStore = merge(EventEmitter.prototype, {
 		switch(action.actionType) {
 			case AppConstants.TOGGLE_FAVORITE:
 				_toggleFavorite(payload.action.favorite);
+				break;
+			case AppConstants.LOAD_NEARBY_STOPS:
+				_loadNearbyStops();
 				break;
 		}
 
